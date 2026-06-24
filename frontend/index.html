@@ -3,28 +3,120 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Vāni AI</title>
+    <title>Vāni AI — Luxury Voice Concierge</title>
     <link rel="stylesheet" href="/static/style.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 </head>
 <body>
-    <div class="container">
-        <h1>Vāni AI</h1>
-        
-        <div class="status-container">
-            Status: <span id="status" class="status-disconnected">Disconnected</span>
-        </div>
+    <div class="bg-map-overlay"></div>
+    <div class="bg-glow"></div>
 
-        <div class="controls">
-            <button id="start-btn">Start Conversation</button>
-            <button id="stop-btn" disabled>Stop</button>
+    <header class="top-nav">
+        <div class="logo-area">
+            <span class="logo-icon">✨</span>
+            <div class="logo-text">
+                <h1>Vāni AI <span class="hindi-script">(वाणी)</span></h1>
+                <p>Realtime Multilingual AI Voice Travel Agent</p>
+            </div>
         </div>
-
-        <div id="log-container">
-            <h3>Connection Logs</h3>
-            <div id="logs"></div>
+        <div class="nav-actions">
+            <div class="language-pill">
+                <span class="lang-dot"></span> EN / HI
+            </div>
+            <div class="status-container">
+                <span id="status" class="status-disconnected">Disconnected</span>
+            </div>
+            <button class="icon-btn" id="settingsBtn" title="Settings">⚙️</button>
         </div>
-    </div>
+    </header>
 
+    <main class="app-layout">
+        <section class="core-space">
+            
+            <div id="auth-section" class="glass-card central-prompt">
+                <h2>Welcome to Premium Travel Concierge</h2>
+                <p>Initiate an uncompressed, hyper-low latency live voice loop for flight configurations, dynamic itinerary updates, and native local translation.</p>
+                <button id="connectBtn" class="prime-btn">Initialize Live Engine</button>
+            </div>
+
+            <div id="app-section" class="hidden dynamic-voice-view">
+                <div class="orb-wrapper">
+                    <div id="voice-orb" class="orb-core state-idle">
+                        <div class="orb-wave wave-1"></div>
+                        <div class="orb-wave wave-2"></div>
+                        <div class="orb-wave wave-3"></div>
+                    </div>
+                    <div id="voice-indicator" class="voice-status-text">Voice Link Idle</div>
+                    <div id="interrupted-alert" class="interrupt-banner hidden">⚡ Response Interrupted</div>
+                </div>
+
+                <div class="transcript-box glass-card">
+                    <div id="chat-log" class="chat-scroll"></div>
+                    <div class="text-fallback-input">
+                        <input type="text" id="textInput" placeholder="Type a message if you prefer not to speak..." />
+                        <button id="sendBtn">Send</button>
+                    </div>
+                </div>
+            </div>
+
+            <div id="session-end-section" class="glass-card central-prompt hidden">
+                <h2>Session Wrapped Successfully</h2>
+                <p>Your sync metrics and active flight context states have been safely cached.</p>
+                <button id="restartBtn" class="prime-btn secondary">Start New Conversation</button>
+            </div>
+
+        </section>
+
+        <aside class="sidebar-context glass-card">
+            <div class="sidebar-block">
+                <h3>Trip Context</h3>
+                <div class="context-grid">
+                    <div class="context-item">
+                        <label>Destination</label>
+                        <span id="ctx-dest">—</span>
+                    </div>
+                    <div class="context-item">
+                        <label>Travel Dates</label>
+                        <span id="ctx-dates">—</span>
+                    </div>
+                    <div class="context-item">
+                        <label>Budget</label>
+                        <span id="ctx-budget">—</span>
+                    </div>
+                    <div class="context-item">
+                        <label>Language</label>
+                        <span id="ctx-lang">Auto-Detect</span>
+                    </div>
+                    <div class="context-item">
+                        <label>Intent</label>
+                        <span id="ctx-intent" class="intent-pill">Idle</span>
+                    </div>
+                </div>
+            </div>
+
+            <hr class="divider">
+
+            <div class="sidebar-block logs-block">
+                <h3>Conversation Events</h3>
+                <div id="log-container">
+                    <div id="logs"></div>
+                </div>
+            </div>
+        </aside>
+    </main>
+
+    <footer class="control-tray">
+        <div class="tray-inner">
+            <button id="micBtn" class="tray-btn mic-active" disabled>Mute Microphone</button>
+            <button id="audioOutBtn" class="tray-btn audio-active">Audio Out: On</button>
+            <button id="disconnectBtn" class="tray-btn danger" >End Session</button>
+        </div>
+    </footer>
+
+    <script src="/static/gemini-client.js"></script>
     <script src="/static/media-handler.js"></script>
+    <script src="/static/main.js"></script>
 </body>
 </html>

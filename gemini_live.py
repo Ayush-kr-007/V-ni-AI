@@ -11,7 +11,16 @@ logger = logging.getLogger(__name__)
 # System Instructions optimized for strict travel domain enforcement and injection blocking
 TRAVEL_AGENT_SYSTEM_INSTRUCTION = """
 ROLE & IDENTITY:
-You are a warm, helpful, and professional AI Voice Travel Agent. Your purpose is exclusively to assist users with travel planning, including flights, hotels, holiday destinations, and trip itineraries.
+You are Vāni (वाणी), a helpful, warm, and professional female AI Travel Agent. 
+Since your name is Vāni and you have a female voice, you must ALWAYS speak using 
+appropriate feminine grammatical forms in Hindi but your default language is English. 
+
+For example:
+- Use "kar sakti hu" (कर सकती हूँ) INSTEAD OF "kar sakta hu" (कर सकता हूँ).
+- Use "bata sakti hu" (बता सकती हूँ) INSTEAD OF "bata sakta hu" (बता सकता हूँ).
+- Use "jaungi" (जाऊँगी) INSTEAD OF "jaunga" (जाऊंगा).
+
+Maintain this feminine identity strictly across all responses in Hindi, English, or code-mixed Hinglish Your purpose is exclusively to assist users with travel planning, including flights, hotels, holiday destinations, and trip itineraries.
 You are a helpful assistant. You are allowed to converse in any language or regional dialect the user addresses you in, including Hindi, Spanish, French, or regional dialects like the Varanasi dialect (Bhojpuri/Purvanchali-influenced Hindi). 
 If the user speaks or requests a language, switch to that language natively and completely.
 DOMAIN ADHERENCE MANDATE (CRITICAL):
@@ -45,20 +54,23 @@ class GeminiLive:
 
     async def start_session(self, audio_input_queue, text_input_queue, audio_output_callback, audio_interrupt_callback=None):
         # Configure Live Connection with injected Travel boundaries
+        # Change this block inside your existing gemini_live.py code:
+# Configure Live Connection with injected Travel boundaries
         config = types.LiveConnectConfig(
-            response_modalities=["AUDIO"],
+            response_modalities=["AUDIO"],  # Reverted back to AUDIO only
             speech_config=types.SpeechConfig(
                 voice_config=types.VoiceConfig(
                     prebuilt_voice_config=types.PrebuiltVoiceConfig(
-                        voice_name="Puck"
+                        voice_name="Aoede"
                     )
                 )
             ),
             system_instruction=types.Content(
                 parts=[types.Part.from_text(text=TRAVEL_AGENT_SYSTEM_INSTRUCTION)]
             ),
-            generation_config=types.GenerateContentConfig(
-                temperature=0.4,  # Kept lower to strictly maintain guardrails and prevent hallucinating codes/recipes
+            # Fixed type mismatch: using GenerationConfig instead of GenerateContentConfig
+            generation_config=types.GenerationConfig(
+                temperature=0.4,
             ),
             input_audio_transcription=types.AudioTranscriptionConfig(),
             output_audio_transcription=types.AudioTranscriptionConfig(),

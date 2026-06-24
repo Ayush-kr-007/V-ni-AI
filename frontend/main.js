@@ -54,14 +54,26 @@ const geminiClient = new GeminiClient({
 
 function handleJsonMessage(msg) {
   if (msg.type === "interrupted") {
+    // 1. Instantly kill the audio playback so she stops talking immediately
     mediaHandler.stopAudioPlayback();
-    if (voiceIndicator) voiceIndicator.textContent = "Interrupted / Listening...";
+    
+    // 2. Clear out the unfinished message text block so it doesn't linger or mix with the new response
+    if (currentGeminiMessageDiv) {
+      currentGeminiMessageDiv.textContent += "... [Interrupted]";
+    }
+    
+    // 3. Hard-reset the message state trackers to shift focus to your new query
     currentGeminiMessageDiv = null;
     currentUserMessageDiv = null;
+    
+    if (voiceIndicator) voiceIndicator.textContent = "Listening to your new request...";
+    console.log("🔄 Cancelled previous generation. Shifting completely to new task.");
+
   } else if (msg.type === "turn_complete") {
     if (voiceIndicator) voiceIndicator.textContent = "Agent Idle / Listening...";
     currentGeminiMessageDiv = null;
     currentUserMessageDiv = null;
+    
   } else if (msg.type === "user") {
     if (currentUserMessageDiv) {
       currentUserMessageDiv.textContent += msg.text;
@@ -69,6 +81,7 @@ function handleJsonMessage(msg) {
     } else {
       currentUserMessageDiv = appendMessage("user", msg.text);
     }
+    
   } else if (msg.type === "gemini") {
     if (voiceIndicator) voiceIndicator.textContent = "Agent Speaking...";
     if (currentGeminiMessageDiv) {
@@ -77,6 +90,7 @@ function handleJsonMessage(msg) {
     } else {
       currentGeminiMessageDiv = appendMessage("gemini", msg.text);
     }
+    
   } else if (msg.type === "tool_call") {
     appendMessage("system", `Executing flight search: ${JSON.stringify(msg.args)}`);
   }
@@ -158,6 +172,8 @@ function resetUI() {
   sessionEndSection.classList.add("hidden");
 
   mediaHandler.stopAudio();
+  mediaHandler.stopAudioPlayback(); // <--- ADD THIS: Clears left-over sounds
+  
   micBtn.textContent = "Start Mic";
   if (voiceIndicator) voiceIndicator.textContent = "Voice Link Idle";
   chatLog.innerHTML = "";
@@ -167,9 +183,7 @@ function resetUI() {
 function showSessionEnd() {
   appSection.classList.add("hidden");
   sessionEndSection.classList.remove("hidden");
-  mediaHandler.stopAudio();
+  
+  mediaHandler.stopAudio();         // Stops mic recording loop
+  mediaHandler.stopAudioPlayback(); // <--- ADD THIS: Shuts up the current playing voice instantly!
 }
-
-restartBtn.onclick = () => {
-  resetUI();
-};
