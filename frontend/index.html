@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Vāni AI — Luxury Voice Concierge</title>
-    <link rel="stylesheet" href="/static/style.css">
+    <link rel="stylesheet" href="style.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
@@ -109,14 +109,14 @@
 
     <footer class="control-tray">
         <div class="tray-inner">
-            <button id="micBtn" class="tray-btn mic-active" disabled>Mute Microphone</button>
+            <button id="micBtn" class="tray-btn mic-active">Mute Microphone</button>
             <button id="audioOutBtn" class="tray-btn audio-active">Audio Out: On</button>
-            <button id="disconnectBtn" class="tray-btn danger" >End Session</button>
+            <button id="disconnectBtn" class="tray-btn danger">End Session</button>
         </div>
     </footer>
 
-    <script src="/static/gemini-client.js"></script>
-    <script src="/static/media-handler.js"></script>
-    <script src="/static/main.js"></script>
+    <script src="gemini-client.js" defer></script>
+    <script src="media-handler.js" defer></script>
+    <script src="main.js" defer></script>
 </body>
 </html>
