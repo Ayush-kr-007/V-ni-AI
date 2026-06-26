@@ -11,9 +11,12 @@ class GeminiClient {
   }
 
   connect() {
-    const protocol = window.location.protocol === "https:" ? "wss:" : "ws:";
-    const wsUrl = `${protocol}//${window.location.host}/ws`;
-
+    // Your real live Render URL!
+    const backendHost = "v-ni-ai-1.onrender.com"; 
+    
+    // Connect via secure WebSockets to your live server
+    const wsUrl = `wss://${backendHost}/ws`;
+    
     this.websocket = new WebSocket(wsUrl);
     this.websocket.binaryType = "arraybuffer";
 
