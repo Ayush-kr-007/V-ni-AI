@@ -1,4 +1,3 @@
-````markdown
 # Vāni AI (वाणी) – Domain-Constrained Real-Time Voice Travel Agent
 
 An interactive, ultra-low-latency, bidirectional voice assistant built for the travel domain using the **Google GenAI Live (Realtime) API**, **FastAPI WebSockets**, and vanilla HTML5 Audio capabilities.
